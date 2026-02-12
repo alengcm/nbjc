@@ -57,15 +57,35 @@
             background-attachment: fixed;
         }
 
+        /* Enhanced Gallery Item Styles */
         .gallery-item {
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            transition: transform 0.3s ease, box-shadow 0.3s ease, opacity 0.6s ease-out;
             cursor: pointer;
+            opacity: 0;
+            transform: translateY(20px);
+            will-change: opacity, transform;
+        }
+
+        .gallery-item.visible {
+            opacity: 1;
+            transform: translateY(0);
         }
 
         .gallery-item:hover {
-            transform: scale(1.02) rotate(1deg);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+            transform: scale(1.03) rotate(1deg) !important;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
             z-index: 10;
+        }
+
+        /* Lightbox Styles */
+        #lightbox {
+            backdrop-filter: blur(8px);
+            transition: opacity 0.3s ease;
+        }
+        
+        #lightbox.hidden {
+            opacity: 0;
+            pointer-events: none;
         }
 
         /* Mobile Menu */
@@ -240,7 +260,6 @@
 
     <!-- Classes Info -->
     <section id="classes" class="py-20 bg-cairns-teal text-white relative">
-        <!-- Background Pattern -->
         <div class="absolute inset-0 opacity-10" style="background-image: radial-gradient(#fff 1px, transparent 1px); background-size: 20px 20px;"></div>
         
         <div class="container mx-auto px-4 relative z-10">
@@ -259,7 +278,6 @@
                 <div class="w-full lg:w-1/2">
                     <h2 class="text-4xl font-heading font-bold mb-8">Classes for Everyone</h2>
                     <div class="space-y-8">
-                        <!-- Class 1 -->
                         <div class="bg-white/10 backdrop-blur-md p-6 rounded-xl border border-white/10 hover:bg-white/20 transition">
                             <div class="flex justify-between items-start">
                                 <h3 class="text-2xl font-heading font-bold text-cairns-gold">Junior Judoka (8-10 yrs)</h3>
@@ -268,7 +286,6 @@
                             <p class="text-cyan-100 mt-2">Active lifestyle intro. Safe rolling, balance, and coordination games. We tire them out so you don't have to.</p>
                         </div>
                         
-                        <!-- Class 2 -->
                         <div class="bg-white/10 backdrop-blur-md p-6 rounded-xl border border-white/10 hover:bg-white/20 transition">
                             <div class="flex justify-between items-start">
                                 <h3 class="text-2xl font-heading font-bold text-cairns-gold"> 10-12 and Teens  (10-16 yrs)</h3>
@@ -277,7 +294,6 @@
                             <p class="text-cyan-100 mt-2">Learning real Judo. Safe falling (Ukemi), throwing techniques, and groundwork. Building confidence and discipline.</p>
                         </div>
 
-                        <!-- Class 3 -->
                         <div class="bg-white/10 backdrop-blur-md p-6 rounded-xl border border-white/10 hover:bg-white/20 transition">
                             <div class="flex justify-between items-start">
                                 <h3 class="text-2xl font-heading font-bold text-cairns-gold">Teens & Adults (16+)</h3>
@@ -324,25 +340,41 @@
         </div>
     </section>
 
-    <!-- Gallery Section -->
+    <!-- Upgraded Gallery Section -->
     <section id="gallery" class="py-24 bg-white relative">
         <div class="absolute top-0 right-0 w-64 h-64 bg-cairns-sand rounded-full filter blur-3xl opacity-50 pointer-events-none"></div>
         <div class="container mx-auto px-4 relative z-10">
             <div class="text-center mb-12">
                 <h2 class="text-4xl font-heading font-bold text-cairns-dark section-title">Life on the Mats</h2>
-                <p class="text-gray-600 mt-4">Real people. Real throws. Real sweat.</p>
+                <p class="text-gray-600 mt-4 max-w-xl mx-auto">Real people. Real throws. Real sweat. <br/><span class="text-sm opacity-70">(Scroll to see more, click to enlarge)</span></p>
             </div>
             
-            <!-- Gallery Grid with Polaroid Effect -->
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-6 p-4" id="gallery-grid">
-                <!-- Images populated by JS -->
+            <!-- Gallery Grid with Auto-Fill to support unlimited images -->
+            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 md:gap-6 p-2 md:p-4" id="gallery-grid">
+                <!-- Images populated by JS in batches -->
+                
+                <!-- Sentinel element for Infinite Scroll detection -->
+                <div id="gallery-sentinel" class="col-span-full h-24 flex items-center justify-center w-full mt-4">
+                    <div id="gallery-loading" class="flex flex-col items-center text-cairns-teal opacity-0 transition-opacity duration-300">
+                        <i class="fas fa-spinner fa-spin text-3xl mb-2"></i>
+                        <span class="text-sm font-bold uppercase tracking-widest">Loading Mats...</span>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
 
+    <!-- Lightbox Overlay (Hidden by default) -->
+    <div id="lightbox" class="fixed inset-0 z-[100] bg-black/90 hidden flex flex-col items-center justify-center p-4">
+        <button id="lightbox-close" class="absolute top-6 right-6 text-white text-4xl hover:text-cairns-gold transition focus:outline-none">
+            <i class="fas fa-times"></i>
+        </button>
+        <img id="lightbox-img" src="" alt="Enlarged Gallery Image" class="max-w-full max-h-[85vh] object-contain shadow-2xl rounded">
+        <p class="text-white/50 mt-4 text-sm tracking-wider uppercase font-bold">Northern Beaches Judo Club</p>
+    </div>
+
     <!-- Contact & Footer -->
     <section id="contact" class="bg-cairns-dark text-white py-20 relative overflow-hidden">
-        <!-- Subtle Map Pattern Overlay -->
         <div class="absolute inset-0 opacity-5 pointer-events-none" style="background-image: url('data:image/svg+xml,%3Csvg width=\'20\' height=\'20\' viewBox=\'0 0 20 20\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cg fill=\'%23ffffff\' fill-opacity=\'1\' fill-rule=\'evenodd\'%3E%3Ccircle cx=\'3\' cy=\'3\' r=\'3\'/%3E%3Ccircle cx=\'13\' cy=\'13\' r=\'3\'/%3E%3C/g%3E%3C/svg%3E');"></div>
         
         <div class="container mx-auto px-4 relative z-10">
@@ -387,7 +419,6 @@
 
                 <!-- Map -->
                 <div class="h-80 lg:h-auto bg-gray-800 rounded-2xl overflow-hidden shadow-2xl border-4 border-white/10 relative">
-                    <!-- Fun Label on Map -->
                     <div class="absolute top-4 right-4 bg-white text-cairns-dark font-bold px-3 py-1 rounded shadow z-10 text-xs">
                         📍 15 Mins from CBD
                     </div>
@@ -418,12 +449,9 @@
         
         const CLUB_CONFIG = {
             // 0. LOGO
-            // Paste your logo URL here inside the quotes. 
-            // If empty, it uses the text/icon logo.
             logoUrl: "https://cairnsjudoclubs.com.au/wp-content/uploads/2023/01/Logo-2023.jpg", 
 
             // 1. ANNOUNCEMENTS
-            // Corny/Fun announcements work best!
             announcement: {
                 active: true, 
                 text: "FREE uniform for new sign-ups! (Because nobody wants to grapple in board shorts)."
@@ -431,25 +459,26 @@
 
             // 2. TIMETABLE
             schedule: [ 
-                { class: "Junior Judoka", age: "8-10 Yrs", days: "Tue & Thu", time: "5:15pm - 6:15pm", intensity: "Fun/Play Based" },
+                { class: "Junior Judoka", age: "8-10 Yrs", days: "Tue & Thu", time: "5:15pm - 6:15pm", intensity: "Fun" },
                 { class: "10 -12 & Teens", age: "10 to 16", days: "Tue & Thu", time: "6:20pm - 7:30pm", intensity: "High" },
-                { class: "Adults", age: "16+ Yrs", days: "Monday, Wednesday and Saturday", time: "6:15pm - 7:45pm", intensity: "Sweaty" },
+                { class: "Adults", age: "16+ Yrs", days: "Mon, Wed & Sat", time: "6:15pm - 7:45pm", intensity: "Sweaty" },
             ],
 
-            // 3. GALLERY IMAGES
-            // I've used placeholders that LOOK like your club. 
-            // To replace, paste your Facebook/Website image links here.
-            galleryImages: [
-                // Kids class / Group photo vibe
-                "https://cairnsjudoclubs.com.au/wp-content/uploads/2016/01/Northern-Beaches-Judo-Club-Cairns-e1673932910503-1000x500.jpg",
-                // Action throw
-                "https://cairnsjudoclubs.com.au/wp-content/uploads/2016/01/Judo-training-all-ages-e1673933134267-1000x500.jpg",
-                // Groundwork / Ne-waza
-                "https://cairnsjudoclubs.com.au/wp-content/uploads/2016/01/Cairns-Judo-Club-e1673933110762-1000x500.jpg",
-                // Belt/Rank focus
-                "https://cairnsjudoclubs.com.au/wp-content/gallery/gallery-page/thumbs/thumbs_JUDO1.jpg"
-            ]
+            // 3. GALLERY SETTINGS (For GitHub Pages)
+            // Name your images like: 1.jpg, 2.jpg, 3.jpg ... and put them in your "gallery" folder.
+            gallery: {
+                folderPath: "gallery/",  // The folder name
+                filePrefix: "",          // Put "img-" if your files are named img-1.jpg
+                fileExtension: ".jpg",   // Ensure all images use this extension (.jpg, .png, etc.)
+                totalImages: 100         // Just update this number when you upload more to GitHub!
+            }
         };
+
+        // --- GENERATE GALLERY URLs ---
+        const generatedGalleryImages = [];
+        for(let i = 1; i <= CLUB_CONFIG.gallery.totalImages; i++) {
+            generatedGalleryImages.push(`${CLUB_CONFIG.gallery.folderPath}${CLUB_CONFIG.gallery.filePrefix}${i}${CLUB_CONFIG.gallery.fileExtension}`);
+        }
 
         // ==========================================
         // --- SYSTEM LOGIC ---
@@ -478,7 +507,6 @@
                 const row = document.createElement('tr');
                 row.className = 'border-b border-gray-100 hover:bg-blue-50 transition timetable-row group';
                 
-                // Color code intensity
                 let intensityClass = 'bg-gray-100 text-gray-600';
                 if(item.intensity === 'Fun') intensityClass = 'bg-yellow-100 text-yellow-800';
                 if(item.intensity === 'Medium') intensityClass = 'bg-blue-100 text-blue-800';
@@ -495,19 +523,6 @@
                 tableBody.appendChild(row);
             });
 
-            // Gallery
-            const galleryGrid = document.getElementById('gallery-grid');
-            CLUB_CONFIG.galleryImages.forEach(imgUrl => {
-                const div = document.createElement('div');
-                div.className = 'gallery-item bg-white p-2 shadow-lg transform rotate-0 hover:rotate-2 transition duration-500';
-                div.innerHTML = `
-                    <div class="overflow-hidden aspect-[4/3] bg-gray-200">
-                        <img src="${imgUrl}" alt="Gallery Image" class="object-cover w-full h-full transform hover:scale-110 transition duration-700">
-                    </div>
-                `;
-                galleryGrid.appendChild(div);
-            });
-
             // Mobile Menu
             const menuBtn = document.getElementById('menu-btn');
             const mobileMenu = document.getElementById('mobile-menu');
@@ -515,12 +530,118 @@
             document.querySelectorAll('#mobile-menu a').forEach(link => {
                 link.addEventListener('click', () => { mobileMenu.classList.remove('open'); });
             });
+
+            // ==========================================
+            // --- GALLERY LOGIC (Infinite Scroll + Lightbox)
+            // ==========================================
+            
+            const galleryGrid = document.getElementById('gallery-grid');
+            const sentinel = document.getElementById('gallery-sentinel');
+            const loadingIndicator = document.getElementById('gallery-loading');
+            
+            const BATCH_SIZE = 12; // How many images to load per scroll
+            let currentGalleryIndex = 0;
+            let isFetching = false;
+
+            // Observer to trigger fade-in animation for individual images
+            const imageFadeObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        // Small delay for a cascading effect
+                        setTimeout(() => {
+                            entry.target.classList.add('visible');
+                        }, 50);
+                        imageFadeObserver.unobserve(entry.target); // Only animate once
+                    }
+                });
+            }, { rootMargin: '0px 0px -50px 0px' });
+
+            // Function to load a batch of images
+            const loadGalleryBatch = () => {
+                if (isFetching || currentGalleryIndex >= generatedGalleryImages.length) return;
+                
+                isFetching = true;
+                loadingIndicator.classList.remove('opacity-0');
+                
+                // Simulate a tiny network delay so the loading spinner is seen (feels more natural)
+                setTimeout(() => {
+                    const endIndex = Math.min(currentGalleryIndex + BATCH_SIZE, generatedGalleryImages.length);
+                    
+                    for (let i = currentGalleryIndex; i < endIndex; i++) {
+                        const imgUrl = generatedGalleryImages[i];
+                        const div = document.createElement('div');
+                        // Randomize slight rotation for that polaroid board look
+                        const rotateClass = i % 3 === 0 ? '-rotate-1' : (i % 2 === 0 ? 'rotate-1' : 'rotate-0');
+                        
+                        div.className = `gallery-item bg-white p-2 shadow-sm border border-gray-100 transform ${rotateClass}`;
+                        
+                        // We use loading="lazy" natively as well for performance safety
+                        div.innerHTML = `
+                            <div class="overflow-hidden aspect-square bg-gray-100 flex items-center justify-center relative">
+                                <div class="absolute inset-0 flex items-center justify-center text-gray-300">
+                                    <i class="fas fa-image text-2xl"></i>
+                                </div>
+                                <img src="${imgUrl}" loading="lazy" alt="Judo Club Gallery Image" class="object-cover w-full h-full relative z-10 transition duration-700 hover:scale-110">
+                            </div>
+                        `;
+                        
+                        // Click event for Lightbox
+                        div.addEventListener('click', () => openLightbox(imgUrl));
+
+                        // Insert before the sentinel (spinner)
+                        galleryGrid.insertBefore(div, sentinel);
+                        
+                        // Observe for fade-in
+                        imageFadeObserver.observe(div);
+                    }
+
+                    currentGalleryIndex = endIndex;
+                    isFetching = false;
+                    loadingIndicator.classList.add('opacity-0');
+
+                    // If we reached the end, update the sentinel text
+                    if (currentGalleryIndex >= generatedGalleryImages.length) {
+                        sentinel.innerHTML = `<div class="text-gray-400 font-medium italic py-8 border-t border-gray-200 w-full text-center">You've reached the end of the mats!</div>`;
+                    }
+                }, 400); // 400ms delay for visual pacing
+            };
+
+            // Observer to trigger infinite scroll when user hits the bottom sentinel
+            const scrollObserver = new IntersectionObserver((entries) => {
+                if (entries[0].isIntersecting) {
+                    loadGalleryBatch();
+                }
+            }, { rootMargin: '0px 0px 400px 0px' }); // Trigger 400px before reaching the exact bottom
+
+            // Start observing the sentinel
+            scrollObserver.observe(sentinel);
+
+
+            // --- LIGHTBOX LOGIC ---
+            const lightbox = document.getElementById('lightbox');
+            const lightboxImg = document.getElementById('lightbox-img');
+            const lightboxClose = document.getElementById('lightbox-close');
+
+            const openLightbox = (url) => {
+                lightboxImg.src = url;
+                lightbox.classList.remove('hidden');
+                document.body.style.overflow = 'hidden'; // Prevent background scrolling
+            };
+
+            const closeLightbox = () => {
+                lightbox.classList.add('hidden');
+                document.body.style.overflow = '';
+                setTimeout(() => { lightboxImg.src = ''; }, 300); // Clear source after fade
+            };
+
+            lightboxClose.addEventListener('click', closeLightbox);
+            lightbox.addEventListener('click', (e) => {
+                if (e.target === lightbox) closeLightbox(); // Close if clicking outside image
+            });
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && !lightbox.classList.contains('hidden')) closeLightbox();
+            });
         });
     </script>
 </body>
-
 </html>
-
-
-
-
