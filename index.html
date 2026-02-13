@@ -343,9 +343,20 @@
                 <!-- Hint Overlay (Fades out on edges) -->
                 <div class="absolute right-0 top-0 bottom-0 w-16 bg-gradient-to-l from-white to-transparent z-20 pointer-events-none md:hidden"></div>
                 
-                <div id="gallery-scroller" class="flex overflow-x-auto gap-4 pb-8 pt-4 px-2 snap-x snap-mandatory scrollbar-hide">
+                <!-- Left Scroll Arrow (Desktop Only) -->
+                <button id="scroll-left" class="absolute left-0 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white text-cairns-teal p-3 rounded-full shadow-lg z-30 hidden md:flex items-center justify-center -ml-4 transition hover:scale-110 focus:outline-none border border-gray-100">
+                    <i class="fas fa-chevron-left text-xl"></i>
+                </button>
+
+                <!-- Scroller -->
+                <div id="gallery-scroller" class="flex overflow-x-auto gap-4 pb-8 pt-4 px-2 snap-x snap-mandatory scrollbar-hide scroll-smooth">
                     <!-- Images populated by JS -->
                 </div>
+
+                <!-- Right Scroll Arrow (Desktop Only) -->
+                <button id="scroll-right" class="absolute right-0 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white text-cairns-teal p-3 rounded-full shadow-lg z-30 hidden md:flex items-center justify-center -mr-4 transition hover:scale-110 focus:outline-none border border-gray-100">
+                    <i class="fas fa-chevron-right text-xl"></i>
+                </button>
                 
                 <p class="text-center text-gray-400 text-sm mt-2 md:hidden animate-pulse">
                     <i class="fas fa-arrow-right mr-2"></i> Swipe to see more
@@ -548,6 +559,20 @@
                 galleryScroller.appendChild(div);
             });
 
+            // --- ARROW SCROLL LOGIC (DESKTOP) ---
+            const scrollLeftBtn = document.getElementById('scroll-left');
+            const scrollRightBtn = document.getElementById('scroll-right');
+
+            if (scrollLeftBtn && scrollRightBtn) {
+                scrollLeftBtn.addEventListener('click', () => {
+                    galleryScroller.scrollBy({ left: -320, behavior: 'smooth' });
+                });
+
+                scrollRightBtn.addEventListener('click', () => {
+                    galleryScroller.scrollBy({ left: 320, behavior: 'smooth' });
+                });
+            }
+
             // --- LIGHTBOX LOGIC ---
             const lightbox = document.getElementById('lightbox');
             const lightboxImg = document.getElementById('lightbox-img');
@@ -576,4 +601,3 @@
     </script>
 </body>
 </html>
-
