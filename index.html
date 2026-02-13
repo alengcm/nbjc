@@ -57,10 +57,34 @@
             background-attachment: fixed;
         }
 
+<<<<<<< HEAD
+        /* Custom Float Animations */
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(-12deg); }
+            50% { transform: translateY(-20px) rotate(-5deg); }
+        }
+        @keyframes float-reverse {
+            0%, 100% { transform: translateY(0px) rotate(45deg); }
+            50% { transform: translateY(-15px) rotate(55deg); }
+        }
+
+        .animate-float {
+            animation: float 6s ease-in-out infinite;
+        }
+        .animate-float-reverse {
+            animation: float-reverse 7s ease-in-out infinite;
+        }
+
         /* Hide Scrollbar but allow scrolling */
         .scrollbar-hide::-webkit-scrollbar {
             display: none;
         }
+=======
+        /* Hide Scrollbar but allow scrolling */
+        .scrollbar-hide::-webkit-scrollbar {
+            display: none;
+        }
+>>>>>>> 2f283c0283a895f103c838e21f53d16fd35f6b3d
         .scrollbar-hide {
             -ms-overflow-style: none;
             scrollbar-width: none;
@@ -161,6 +185,40 @@
 
     <!-- Hero Section -->
     <header id="home" class="hero-bg min-h-screen flex items-center justify-center text-center px-4 relative overflow-hidden">
+        
+        <!-- CUTE JUDO FIGURINES (Floating Background Elements) -->
+        
+        <!-- 1. The "Walking On" Judoka (Top Left) -->
+        <div class="absolute top-32 left-5 md:left-20 opacity-20 pointer-events-none select-none animate-float">
+            <i class="fas fa-person-walking text-6xl md:text-9xl text-white filter drop-shadow-xl"></i>
+        </div>
+
+        <!-- 2. The "Thrown" Judoka (Bottom Right) -->
+        <div class="absolute bottom-1/4 right-5 md:right-20 opacity-20 pointer-events-none select-none animate-float-reverse">
+            <i class="fas fa-person-falling text-6xl md:text-9xl text-cairns-gold filter drop-shadow-xl"></i>
+        </div>
+
+        <!-- 3. The "Respect/Bowing" Judoka (Top Right) -->
+        <!-- Moved down to top-32 to clear the navbar -->
+        <div class="absolute top-32 right-8 md:right-32 opacity-15 pointer-events-none select-none animate-float" style="animation-delay: 2s;">
+            <i class="fas fa-person-praying text-5xl md:text-8xl text-white filter drop-shadow-xl"></i>
+        </div>
+
+        <!-- 4. The "Kuzushi/Action" Judoka (Bottom Left) -->
+        <div class="absolute bottom-10 left-8 md:left-32 opacity-15 pointer-events-none select-none animate-float-reverse" style="animation-delay: 3.5s;">
+            <i class="fas fa-person-running text-5xl md:text-8xl text-cairns-teal filter drop-shadow-xl transform scale-x-[-1]"></i>
+        </div>
+
+        <!-- 5. The "Junior/Kid" Judoka (Middle Right) -->
+        <div class="absolute top-1/2 right-4 md:right-10 opacity-10 pointer-events-none select-none animate-float" style="animation-delay: 1s;">
+            <i class="fas fa-child text-4xl md:text-7xl text-white filter drop-shadow-xl"></i>
+        </div>
+
+        <!-- 6. The "Standing/Waiting" Judoka (Middle Left) -->
+        <div class="absolute top-1/2 left-4 md:left-10 opacity-10 pointer-events-none select-none animate-float-reverse" style="animation-delay: 4s;">
+            <i class="fas fa-person text-4xl md:text-7xl text-cairns-gold filter drop-shadow-xl"></i>
+        </div>
+
         <div class="max-w-4xl text-white pt-20 z-10">
             
             <!-- The Badge -->
@@ -450,7 +508,7 @@
         
         const CLUB_CONFIG = {
             // 0. LOGO
-            logoUrl: "https://cairnsjudoclubs.com.au/wp-content/uploads/2023/01/Logo-2023.jpg", 
+            logoUrl: "Logo-2023.jpg", 
 
             // 1. ANNOUNCEMENTS
             announcement: {
@@ -471,7 +529,7 @@
                 folderPath: "gallery/",  // The folder name
                 filePrefix: "",          // Put "img-" if your files are named img-1.jpg
                 fileExtension: ".jpg",   // Ensure all images use this extension (.jpg, .png, etc.)
-                totalImages: 48         // Just update this number when you upload more to GitHub!
+                totalImages: 95         // Just update this number when you upload more to GitHub!
             }
         };
 
